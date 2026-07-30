@@ -136,9 +136,16 @@ if (true) {
 
 // ! This line throws a TypeError. Keep it commented until this part,
 // ! then uncomment it and wrap it in try and catch:
-// const answer = 42;
-// console.log(answer.toUpperCase());
+try {
+  const answer = 42;
 
+  console.log(answer.toUpperCase());
+} catch (error) {
+  console.log(`Oops! Something went wrong: ${error.message}`);
+}
+
+// Proving the program continues executing without crashing
+console.log("Execution continued successfully after handling the error!");
 // TODO: Save deliberately, commit with a clear message, push the branch, and open a pull request
 // into main.
 // TODO: Submit the link to the pull request for review.
