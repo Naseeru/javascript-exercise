@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 // Lesson 09 exercise: The DOM and forms
 // In your exercise repository, create a branch named `lesson-09-exercise` and switch to it.
@@ -10,13 +10,20 @@
 // Log one sentence to the console, then log `document.title`, and confirm that both appear in
 // the DevTools Console rather than in a terminal. In a comment, state what the `defer`
 // attribute prevented.
+//Answer:
+/*The `defer` attribute prevents the script from executing synchronously 
+during HTML parsing (which would block page rendering) and prevents script 
+execution before the HTML DOM is fully parsed.
+Because of `defer`, `document.title` and other DOM nodes are guaranteed to exist 
+ 
+when the script runs, avoiding `null` or `undefined` references without needing an 
 
+explicit `DOMContentLoaded` event listener.*/
 
 // TODO: Part two.
 // Select the page's `h1` with `querySelector` and replace its `textContent` with a label name
 // of your choosing. Select the tagline by its class and change its text, then add the provided
 // highlight class to it through `classList`.
-
 
 // TODO: Part three.
 // The file provides the artists as an array of objects. Loop over it, create an `article`
@@ -33,18 +40,26 @@ const artists = [
   { name: "Johnny Cash", genre: "Country", total: "15:40" },
 ];
 
-
 // TODO: Part four.
 // Add a sixth artist object of your own invention to the array and reload. Confirm that the
 // sixth card exists, and state in a comment what you did not have to change, compared with the
 // five hand-copied cards this course opened on.
-
+/* 
+The DOM manipulation and iteration logic did not need to be modified at all.
+ 
+  Because the rendering code dynamically loops over `artists.length`,
+  adding, 
+  removing, or updating data in the array automatically updates the UI.
+  Unlike writing hardcoded HTML for five individual cards, 
+  data-driven code 
+  decouples data from representation, 
+  so UI logic doesn't scale with dataset size.
+*/
 
 // TODO: Part five.
 // The page provides a button with the shuffle class and an element with the featured class. On
 // click, pick a random artist using the random recipe with `Math.floor`, and write a featured
 // sentence into the featured element with a template literal.
-
 
 // TODO: Part six.
 // The page provides a form with the signup class and a text input with the artist-name id. On
@@ -54,7 +69,14 @@ const artists = [
 // call. An empty submission does nothing; name in a comment which falsy value makes that check
 // work. As a stretch, clear the input by assigning it an empty string after each successful
 // addition.
-
+/*
+FALSY VALUE CHECK:
+    An empty string `""` 
+  evaluates to `false` in JavaScript standard boolean coercion.
+ 
+  Checking `if (enteredName)` evaluates to false when the input is empty or spaces-only, 
+  preventing blank cards from being added.
+*/
 
 // TODO: Save deliberately, commit with a clear message, push the branch, and open a pull request
 // into main. This is the final exercise of the course, and the reviewed merge closes it.
