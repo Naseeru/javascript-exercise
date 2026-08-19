@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 // Lesson 09 exercise: The DOM and forms
 // In your exercise repository, create a branch named `lesson-09-exercise` and switch to it.
@@ -11,12 +11,29 @@
 // the DevTools Console rather than in a terminal. In a comment, state what the `defer`
 // attribute prevented.
 
+//Answer:
+console.log("JavaScript is successfully running in the browser.");
+console.log(document.title);
+
+/*The `defer` attribute prevents the script from executing synchronously 
+during HTML parsing (which would block page rendering) and prevents script 
+execution before the HTML DOM is fully parsed.
+Because of `defer`, `document.title` and other DOM nodes are guaranteed to exist 
+when the script runs, avoiding `null` or `undefined` references without needing an 
+explicit `DOMContentLoaded` event listener.*/
 
 // TODO: Part two.
 // Select the page's `h1` with `querySelector` and replace its `textContent` with a label name
 // of your choosing. Select the tagline by its class and change its text, then add the provided
 // highlight class to it through `classList`.
 
+// Answer:
+const mainHeading = document.querySelector("h1");
+mainHeading.textContent = "The Dreamville";
+
+const tagline = document.querySelector(".tagline");
+tagline.textContent = "Discover what's new on this page.";
+tagline.classList.add("highlight");
 
 // TODO: Part three.
 // The file provides the artists as an array of objects. Loop over it, create an `article`
@@ -31,21 +48,66 @@ const artists = [
   { name: "Asake", genre: "Afrobeats", total: "14:08" },
   { name: "Miyagi and Andy Panda", genre: "Hip-hop", total: "16:21" },
   { name: "Johnny Cash", genre: "Country", total: "15:40" },
+  { name: "Daft Punk", genre: "Electronic", total: "18:45" },
 ];
 
+//Answer:
+const cardsContainer = document.querySelector(".cards");
+
+artists.forEach((artist) => {
+  const card = document.createElement("article");
+
+  const nameHeading = document.createElement("h3");
+  nameHeading.textContent = `${artist.name}`;
+
+  const infoPara = document.createElement("p");
+  infoPara.textContent = `${artist.genre} · ${artist.total}`;
+
+  card.appendChild(nameHeading);
+  card.appendChild(infoPara);
+
+  cardsContainer.appendChild(card);
+});
 
 // TODO: Part four.
 // Add a sixth artist object of your own invention to the array and reload. Confirm that the
 // sixth card exists, and state in a comment what you did not have to change, compared with the
 // five hand-copied cards this course opened on.
 
+//Answer:
+artists.push({
+  name: "Daft Punk",
+  genre: "Electronic",
+  total: "18:45",
+});
+/* 
+The DOM manipulation and iteration logic did not need to be modified at all.
+ 
+  Because the rendering code dynamically loops over `artists.length`,
+  adding, 
+  removing, or updating data in the array automatically updates the UI.
+  Unlike writing hardcoded HTML for five individual cards, 
+  data-driven code 
+  decouples data from representation, 
+  so UI logic doesn't scale with dataset size.
+*/
 
 // TODO: Part five.
 // The page provides a button with the shuffle class and an element with the featured class. On
 // click, pick a random artist using the random recipe with `Math.floor`, and write a featured
 // sentence into the featured element with a template literal.
 
+//Answer:
+const shuffleButton = document.querySelector(".shuffle");
+const featuredElement = document.querySelector(".featured");
 
+shuffleButton.addEventListener("click", () => {
+  // Random index recipe: Math.floor(Math.random() * array.length)
+  const randomIndex = Math.floor(Math.random() * artists.length);
+  const randomArtist = artists[randomIndex];
+
+  featuredElement.textContent = `Featured Artist: ${randomArtist.name} (${randomArtist.genre}) — Total runtime: ${randomArtist.total}`;
+});
 // TODO: Part six.
 // The page provides a form with the signup class and a text input with the artist-name id. On
 // submit, call `preventDefault` on the event, read the input's `value`, and, when the value is
@@ -55,6 +117,49 @@ const artists = [
 // work. As a stretch, clear the input by assigning it an empty string after each successful
 // addition.
 
+//Answer:
+
+function renderArtistCard(artist) {
+  const card = document.createElement("article");
+
+  const nameHeading = document.createElement("h3");
+  nameHeading.textContent = `${artist.name}`;
+
+  const infoPara = document.createElement("p");
+  infoPara.textContent = `${artist.genre} · ${artist.total}`;
+
+  card.appendChild(nameHeading);
+  card.appendChild(infoPara);
+
+  cardsContainer.appendChild(card);
+}
+
+const signupForm = document.querySelector(".signup");
+const artistInput = document.getElementById("artist-name");
+
+signupForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+
+  const enteredName = artistInput.value.trim();
+
+  if (enteredName) {
+    const newArtist = {
+      name: enteredName,
+      genre: "Custom Genre",
+      total: "0:00",
+    };
+
+    artists.push(newArtist);
+
+    renderArtistCard(newArtist);
+
+    artistInput.value = "";
+  }
+});
+
+// Falsy value explanation comment:
+// When the input is empty (or whitespace trimmed), `enteredName` is an empty string `""`.
+// In JavaScript, an empty string `""` evaluates to `false` (a falsy value) in boolean contexts like `if (enteredName)`.
 
 // TODO: Save deliberately, commit with a clear message, push the branch, and open a pull request
 // into main. This is the final exercise of the course, and the reviewed merge closes it.
